@@ -13,17 +13,21 @@ Setup on Ansible server:
 	[dev]
 	private_ip
 
-5) vi /etc/ssh/sshd_config
+5) vi /etc/ansible/ansible.cfg
+	uncomment inventory
+	uncomment sudo_user
+
+6) vi /etc/ssh/sshd_config
 	uncomment rootpermitlogin
 	change passwordAutheciation no to yes 
 
-6) systemctl restart sshd
+7) systemctl restart sshd
 
-7) ssh-keygen >> press 4 times enter
+8) ssh-keygen >> press 4 times enter
 
-	ssh-copy-ip root@privateip_node --> password --> enter
+	ssh-copy-id root@privateip_node --> password --> enter
 
-8) ansible -m ping all					[optional]
+9) ansible -m ping all					[optional]
 	--> used to check all the nodes are connected to ansible server
 	
 Setup on Worker nodes:
