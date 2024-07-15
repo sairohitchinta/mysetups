@@ -1,1 +1,2 @@
 # mysetups
+ALL MY DEVOPS TOOLS SETUP & SCRIPTS
