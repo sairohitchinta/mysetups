@@ -1,0 +1,28 @@
+- hosts: all
+  tasks:
+    - name: install java11
+      command: amazon-linux-extras install java-openjdk11 -y
+
+    - name: download tar file from dlcdn.apache.org
+      get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.91/bin/apache-tomcat-9.0.91.tar.gz
+        dest: /root/
+
+    - name: extract the tar file
+      command: tar -zxvf apache-tomcat-9.0.91.tar.gz
+
+    - name: rename this file
+      command: mv apache-tomcat-9.0.91 tomcat
+
+    - name: copy tomcat-users.xml from ansible-server to nodes
+      template:
+        src: tomcat-users.xml
+        dest: /root/tomcat/conf/tomcat-users.xml
+
+    - name: copy context.xml from ansible-server to nodes
+      template:
+        src: context.xml
+        dest: /root/tomcat/webapps/manager/META-INF/context.xml
+
+    - name: start the tomcat
+      command: nohup /root/tomcat/bin/startup.sh

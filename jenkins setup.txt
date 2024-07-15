@@ -1,0 +1,16 @@
+# Step-1: install git, java1.8.0, maven, tree
+yum install git java-1.8.0-openjdk maven tree -y
+
+# Step-2: copy the repo from Jenkins.io and execute in shell (Jenkins.io --> download --> redhat)
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+  
+# Step-3: install java-openjdk11 and Jenkins and change the config of java
+amazon-linux-extras install java-openjdk11 -y
+yum install jenkins -y
+update-alternatives --config java
+#here in the shell select the option for java jdk11
+
+# Step-4: start the jenkins service
+systemctl start jenkins
+systemctl status jenkins

@@ -1,0 +1,43 @@
+Setup on Ansible server:
+--------------------------------
+1) hostnamectl set-hostname ansible		[optional]
+     sudo -i
+
+2) passwd root
+	given password
+
+3) amazon-linux-extras install ansible2 -y
+     yum install python3 python-pip python-dlevel -y
+
+4) vi /etc/ansible/hosts
+	[dev]
+	private_ip
+
+5) vi /etc/ssh/sshd_config
+	uncomment rootpermitlogin
+	change passwordAutheciation no to yes 
+
+6) systemctl restart sshd
+
+7) ssh-keygen >> press 4 times enter
+
+	ssh-copy-ip root@privateip_node --> password --> enter
+
+8) ansible -m ping all					[optional]
+	--> used to check all the nodes are connected to ansible server
+	
+Setup on Worker nodes:
+--------------------------------
+1) hostnamectl set-hostname ansible		[optional]
+     sudo -i 
+
+2) passwd root
+	given password
+
+3) vi /etc/ssh/sshd_config
+	uncomment rootpermitlogin
+	change passwordAutheciation no to yes 
+
+4) systemctl restart sshd
+
+

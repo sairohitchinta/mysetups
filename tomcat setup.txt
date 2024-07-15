@@ -1,0 +1,35 @@
+TOMCAT SETUP:(MANUAL)
+-----------------------
+
+1) install java11(agent) and download a tar.gz from dlcdn.apache.org
+
+	# amazon-linux-extras install java-openjdk11 -y
+	dlcdn.apache.org --> tomcat --> tomcat9(stable version) --> any one version --> bin --> copy the link of tar.gz
+		# wget link
+
+2) now extract the tar file
+
+	# tar -zxvf apache_file.tar.gz
+
+3) Configure the username & password in tomcat-users.xml
+
+	# vi apache.../conf/tomcat-users.xml
+
+	copy the last first 3 lines and paste them below -->
+
+		 <role rolename="manager-gui"/>
+ 		 <role rolename="manager-script"/>
+  		<user username="tomcat" password="rohit123" roles="manager-gui, manager-script"/>
+		:wq
+		
+4) delete value tag in context.xml
+
+	# vi apache../webapps/manager/META-INF/context.xml
+
+		place cursor before value tag and press dd
+		:wq
+
+5) start the server using script
+	
+	# sh apache.../bin/startup.sh		--> to start tomcat server
+	# sh apache.../bin/ shutdown.sh 	--> to stop tomcat server
