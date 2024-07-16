@@ -1,0 +1,18 @@
+SLAVE(DEV/TEST/UAT/PROD)
+------------------------------------------
+yum install git java-1.8.0-openjdk maven -y
+amazon-linux-extras install java-openjdk11 -y
+
+if maven is not working or Agent/Node is not working
+--> verify java version: if it is not 1.8.0 change the version to 1.8.0
+		
+		 update-alternatives --config java 
+
+now install tomcat server in dev server(env)
+
+connect to tomcat server(PublicIP:8080 --> manager apps --> username & password)
+
+Jenkins --> install plugin called deploy to containers
+add dev credentials(tomcat credentials) for Jenkins to have an credentialsId |-->21bf3324-a23d-4e49-8bbb-6502e793cba2
+
+Now write the pipeline stage for deploy
