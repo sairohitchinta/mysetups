@@ -16,3 +16,18 @@ Jenkins --> install plugin called deploy to containers
 add dev credentials(tomcat credentials) for Jenkins to have an credentialsId |-->21bf3324-a23d-4e49-8bbb-6502e793cba2
 
 Now write the pipeline stage for deploy
+
+stage('deploy'){
+	steps{
+		deploy adapters:[
+				tomcat9(
+					crendentialsId: 'tomcat credentials in jenkins',
+					path: '',
+					url: 'tomcaturl'
+				)
+			],
+			contextPath: 'netflix',
+			war: 'target/*.war'
+	}
+}
+		
