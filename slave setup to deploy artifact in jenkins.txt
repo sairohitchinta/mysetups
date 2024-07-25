@@ -13,15 +13,17 @@ now install tomcat server in dev server(env)
 connect to tomcat server(PublicIP:8080 --> manager apps --> username & password)
 
 Jenkins --> install plugin called deploy to containers
-add dev credentials(tomcat credentials) for Jenkins to have an credentialsId |-->21bf3324-a23d-4e49-8bbb-6502e793cba2
+add dev credentials(tomcat credentials i.e) for Jenkins to have an credentialsId |-->21bf3324-a23d-4e49-8bbb-6502e793cba2
 
 Now write the pipeline stage for deploy
 
+Syntax:
+------------
 stage('deploy'){
 	steps{
 		deploy adapters:[
 				tomcat9(
-					crendentialsId: 'tomcat credentials in jenkins',
+					credentialsId: 'tomcat credentials in jenkins',
 					path: '',
 					url: 'tomcaturl'
 				)
@@ -30,4 +32,36 @@ stage('deploy'){
 			war: 'target/*.war'
 	}
 }
-		
+
+Example:
+------------
+
+pipeline{
+    agent any
+    
+    stages{
+        stage('git checkout'){
+            steps{
+                git 'https://github.com/sairohitchinta/jenkins-java-project.git'
+            }
+        }
+        stage('build'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('deploy'){
+            steps{
+                deploy adapters:[
+                    tomcat9(
+                        credentialsId: 'f2210764-f697-407c-8886-0b3b09f28bbf',
+                        path: '',
+                        url: 'http://54.175.12.84:8080/'
+                    )
+                ],
+                contextPath: 'netflix',
+                war: 'target/*.war'
+            }
+        }
+    }
+}
