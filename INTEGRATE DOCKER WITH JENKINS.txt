@@ -1,0 +1,66 @@
+HOW TO INTEGRATE DOCKER WITH JENKINS
+-----------------------------------------------------------------
+
+1) Install Jenkins and docker in 1 ec2 instance
+
+2) Create a repo  in GitHub with index.html and Dockerfile
+	
+	Dockerfile
+
+	FROM ubuntu
+	RUN apt update -y
+	RUN apt install apache2 -y
+	COPY index.html /var/www/html
+	CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+	
+	NOTE:
+		--> if the repo's branch is master means ok ==> we can use git 'url' in steps of pipeline
+										otherwise==> we have to use the pipeline syntax generator 
+
+
+3) Jenkins --> new job --> pipeline --> ok --> write the pipeline as below
+
+	use parameterised build option to give values
+	
+pipeline{
+	agent any
+
+	stages{
+		stage('git checkout'){
+			steps{
+				 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/sairohitchinta/dockerdemo.git'
+			}
+		}
+		stage('build'){
+			steps{
+				sh 'docker build -t $image . '
+			}
+		}
+		stage('tag'){
+			steps{
+				sh 'docker tag $image $repo'
+			}
+		}
+		stage('push'){
+			steps{
+				sh 'docker login -u sairohitchinta -p $password'
+				sh 'docker push $repo'
+			}
+		}
+		stage('run'){
+			steps{
+				sh 'docker run -itd --name $containername -p $containerport:80 $image'
+			}
+		}
+	}
+}
+
+4) change permissions
+		
+	chmod 777 /var/run/docker.sock
+	systemctl daemon-reload
+	systemctl restart docker
+
+5) Now build the job using parameter
+	
+
